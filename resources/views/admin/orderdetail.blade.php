@@ -120,9 +120,9 @@
                                             @foreach($arr as $all_order)
                                             <tr>
                                                 <td>{{$all_order->product_name}}</td>
-                                                <td>{{$all_order->product_price}}</td>
+                                                <td>{{number_format($all_order->product_price,0,',','.')}}</td>
                                                 <td>{{$all_order->product_quantity}}</td>
-                                                <td>{{$all_order->product_quantity * $all_order->product_price}}</td>
+                                                <td> {{number_format($all_order->product_quantity * $all_order->product_price,0,',','.')}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -131,7 +131,7 @@
                                                 <th></th>
                                                 <th></th>
                                                 <th>Tổng Đơn Hàng</th>
-                                                <th>{{$data->order_total}}</th>
+                                                <th>{{number_format($data->order_total,0,',','.')}}</th>
                                             </tr>
                                         </tfoot>
                                     </table>

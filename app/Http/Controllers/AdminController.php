@@ -22,7 +22,7 @@ class AdminController extends Controller
     {
         $all_order = DB::table('tbl_order')
             ->join('tbl_shoppingcustomer', 'tbl_shoppingcustomer.shoppingcustomer_id', '=', 'tbl_order.shoppingcustomer_id')
-            ->where('tbl_order.order_status', '=',"Chờ Xác Nhận")
+            ->where('tbl_order.order_status', '=',"Chờ Xác Nhận Đơn Hàng")
             ->get();
         return view('admin/dashboard', ["all_order" => $all_order]);
     }
