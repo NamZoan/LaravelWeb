@@ -126,7 +126,6 @@
                                         </label>
                                     </div>
 									<input type="submit" value="Thanh Toán"  style="background-color: #FF9933;">
-									
 								</form>
 							</div>
 						</div>

@@ -14,10 +14,16 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $result = DB::table('tbl_product')
+            ->join('tbl_order_detail', 'tbl_product.product_id', '=', 'tbl_order_detail.product_id')
+            ->select('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_imge', DB::raw('SUM(tbl_order_detail.product_quantity) AS total_quantity'))
+            ->groupBy('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_imge')
+            ->orderByDesc('total_quantity')
+            ->limit(1)
+            ->get();
 
         $pro = DB::table('tbl_product')
             ->orderBy('product_id', 'desc')
-            ->skip(1)
             ->take(2)
             ->get();
 
@@ -32,14 +38,22 @@ class HomeController extends Controller
             ->with('brand', $brand)
             ->with('product', $product)
             ->with('pro', $pro)
+            ->with('result', $result)
             ->with('product_new', $product_new);
     }
 
     public function show_brand_welcome($brand_id)
     {
+        $result = DB::table('tbl_product')
+            ->join('tbl_order_detail', 'tbl_product.product_id', '=', 'tbl_order_detail.product_id')
+            ->select('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_imge', DB::raw('SUM(tbl_order_detail.product_quantity) AS total_quantity'))
+            ->groupBy('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_imge')
+            ->orderByDesc('total_quantity')
+            ->limit(1)
+            ->get();
+
         $pro = DB::table('tbl_product')
             ->orderBy('product_id', 'desc')
-            ->skip(1)
             ->take(2)
             ->get();
         $product_new = DB::select("SELECT * FROM tbl_product ORDER BY product_id DESC LIMIT 1");
@@ -51,14 +65,25 @@ class HomeController extends Controller
             ->get();
         $category = DB::table('tbl_category')->get();
         $brand = DB::table('tbl_brand')->get();
-        return view('client/brand')->with('product_new', $product_new)->with('pro', $pro)
-            ->with('category', $category)->with('brand', $brand)->with('category_product', $brand_product)->with('edit_brand', $edit_brand);
+        return view('client/brand')->with('product_new', $product_new)
+            ->with('pro', $pro)
+            ->with('result', $result)
+            ->with('category', $category)->with('brand', $brand)
+            ->with('category_product', $brand_product)
+            ->with('edit_brand', $edit_brand);
     }
     public function show_category_welcome($category_id)
     {
+        $result = DB::table('tbl_product')
+            ->join('tbl_order_detail', 'tbl_product.product_id', '=', 'tbl_order_detail.product_id')
+            ->select('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_imge', DB::raw('SUM(tbl_order_detail.product_quantity) AS total_quantity'))
+            ->groupBy('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_imge')
+            ->orderByDesc('total_quantity')
+            ->limit(1)
+            ->get();
+
         $pro = DB::table('tbl_product')
             ->orderBy('product_id', 'desc')
-            ->skip(1)
             ->take(2)
             ->get();
         $product_new = DB::select("SELECT * FROM tbl_product ORDER BY product_id DESC LIMIT 1");
@@ -71,7 +96,7 @@ class HomeController extends Controller
 
         $category = DB::table('tbl_category')->get();
         $brand = DB::table('tbl_brand')->get();
-        return view('client/category')->with('product_new', $product_new)->with('pro', $pro)
+        return view('client/category')->with('product_new', $product_new)->with('pro', $pro)->with('result', $result)
             ->with('category', $category)->with('brand', $brand)->with('category_product', $category_product)->with('edit_category', $edit_category);
     }
     public function detail_product($product_id)
@@ -99,9 +124,16 @@ class HomeController extends Controller
     }
     public function search_product(Request $request)
     {
+        $result = DB::table('tbl_product')
+            ->join('tbl_order_detail', 'tbl_product.product_id', '=', 'tbl_order_detail.product_id')
+            ->select('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_imge', DB::raw('SUM(tbl_order_detail.product_quantity) AS total_quantity'))
+            ->groupBy('tbl_product.product_id', 'tbl_product.product_name', 'tbl_product.product_imge')
+            ->orderByDesc('total_quantity')
+            ->limit(1)
+            ->get();
+
         $pro = DB::table('tbl_product')
             ->orderBy('product_id', 'desc')
-            ->skip(1)
             ->take(2)
             ->get();
         $product_new = DB::select("SELECT * FROM tbl_product ORDER BY product_id DESC LIMIT 1");
@@ -110,7 +142,7 @@ class HomeController extends Controller
         $search_product = DB::table('tbl_product')->where('product_name', 'like', '%' . $search . '%')->get();
         $category = DB::table('tbl_category')->get();
         $brand = DB::table('tbl_brand')->get();
-        return view('client/searchproduct')->with('product_new', $product_new)->with('pro', $pro)
+        return view('client/searchproduct')->with('product_new', $product_new)->with('pro', $pro)->with('result', $result)
             ->with('category', $category)->with('brand', $brand)->with('search_product', $search_product);
     }
 }

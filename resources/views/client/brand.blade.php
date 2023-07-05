@@ -113,8 +113,8 @@
 							<div class="item active">
 								<div class="col-sm-6">
 									<h1><span>WEB</span>-SHOPPER</h1>
-									<h2>Newest product of the shop</h2>
-									@foreach($product_new as $key)
+									<h2>Best - selling product</h2>
+									@foreach($result as $key)
 									<h4>{{$key->product_name}}</h4>
 								</div>
 								<div class="col-sm-6">
