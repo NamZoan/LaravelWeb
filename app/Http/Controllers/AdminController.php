@@ -42,7 +42,7 @@ class AdminController extends Controller
             ->where('tbl_shoppingcustomer.shoppingcustomer_id', '=', $data->shoppingcustomer_id)
             ->get();
         return view('admin/orderdetail', ["arr" => $arr], ["data" => $data]);
-    }
+    } 
     public function dashboard(Request $request)
     {
         $ad_email = $request->ad_email;
